@@ -7,9 +7,17 @@ export const columns = [
     width: 48,
   },
   {
+    title: 'Created on',
+    dataIndex: 'creationDate',
+    valueType: 'date',
+    editable: false,
+    sorter: true,
+  },
+  {
     title: 'Title',
     dataIndex: 'title',
     ellipsis: true,
+    sorter: true,
     tip: 'If the title is too long, it will automatically shrink',
     formItemProps: {
       rules: [
@@ -25,6 +33,7 @@ export const columns = [
     title: 'Description',
     dataIndex: 'description',
     ellipsis: true,
+    sorter: true,
     tip: 'If the title is too long, it will automatically shrink',
     formItemProps: {
       rules: [
@@ -41,12 +50,14 @@ export const columns = [
     dataIndex: 'dueDate',
     valueType: 'date',
     sorter: true,
-    hideInSearch: true,
   },
+
+  //TODO: handling multiple tags
   {
     title: 'Tags',
     key: 'tags',
     dataIndex: 'tags',
+    filters: true,
     render: (_, { tags }) => (
       <>
         {tags?.map((tag) => {
@@ -59,16 +70,16 @@ export const columns = [
       </>
     ),
   },
+
+  //TODO: set open as default
   {
-    disable: true,
-    title: 'status',
+    title: 'Status',
     dataIndex: 'status',
     filters: true,
     onFilter: true,
     ellipsis: true,
     valueType: 'select',
     valueEnum: {
-      all: { text: 'super long'.repeat(50) },
       open: {
         text: 'open',
         status: 'Error',
@@ -80,12 +91,10 @@ export const columns = [
       done: {
         text: 'done',
         status: 'Success',
-        disabled: true,
       },
       overdue: {
         text: 'overdue',
         status: 'Error',
-        disabled: true,
       },
     },
     formItemProps: {
@@ -98,28 +107,19 @@ export const columns = [
     },
   },
   {
-    title: 'operate',
+    title: 'Edit',
     valueType: 'option',
     key: 'option',
     render: (text, record, _, action) => [
       <Button
-        key="editable"
-        type='link'
-        onClick={() => {
-          action?.startEditable?.(record.id);
-        }}
-      >
-        edit
-      </Button>,
-      <Button
-        key="editable"
-        type='link'
-        onClick={() => {
-          action?.startEditable?.(record.id);
-        }}
-      >
-        delete
-      </Button>,
+      type="link"
+      key="editable"
+      onClick={() => {
+        action?.startEditable?.(record.id);
+      }}
+    >
+      edit
+    </Button>
     ],
   },
 ];

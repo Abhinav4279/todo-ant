@@ -21,6 +21,31 @@ const App = () => {
             params,
           });
         }}
+
+        editable={{
+          type: 'multiple',
+        }}
+        columnsState={{
+          persistenceKey: 'pro-table-singe-demos',
+          persistenceType: 'localStorage',
+          onChange(value) {
+            console.log('value: ', value);
+          },
+        }}
+        rowKey="id"
+        search={{
+          labelWidth: 'auto',
+        }}
+        options={{
+          setting: {
+            listsHeight: 400,
+          },
+        }}
+        pagination={{
+          pageSize: 5,
+          onChange: (page) => console.log(page),
+        }}
+        dateFormatter="string"
       />
     </ConfigProvider>
   )
