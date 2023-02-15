@@ -49,7 +49,7 @@ export const columns = [
     dataIndex: 'tags',
     render: (_, { tags }) => (
       <>
-        {tags.map((tag) => {
+        {tags?.map((tag) => {
           return (
             <Tag color='green' key={tag}>
               {tag.toUpperCase()}
