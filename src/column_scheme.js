@@ -11,13 +11,14 @@ export const columns = [
     dataIndex: 'creationDate',
     valueType: 'date',
     editable: false,
-    sorter: true,
+    
+    sorter: (a, b) => a.creationDate - b.creationDate,
   },
   {
     title: 'Title',
     dataIndex: 'title',
     ellipsis: true,
-    sorter: true,
+    sorter: (a, b) => a.title.length - b.title.length,
     tip: 'If the title is too long, it will automatically shrink',
     formItemProps: {
       rules: [
@@ -33,7 +34,7 @@ export const columns = [
     title: 'Description',
     dataIndex: 'description',
     ellipsis: true,
-    sorter: true,
+    sorter: (a, b) => a.description.length - b.description.length,
     tip: 'If the title is too long, it will automatically shrink',
     formItemProps: {
       rules: [
@@ -49,7 +50,7 @@ export const columns = [
     title: 'Due Date',
     dataIndex: 'dueDate',
     valueType: 'date',
-    sorter: true,
+    sorter: (a, b) => new Date(a.dueDate) - new Date(b.dueDate),
   },
 
   //TODO: handling multiple tags
@@ -119,7 +120,7 @@ export const columns = [
       }}
     >
       edit
-    </Button>
+    </Button>,
     ],
   },
 ];
