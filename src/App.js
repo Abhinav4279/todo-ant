@@ -1,11 +1,13 @@
 import { ProTable } from '@ant-design/pro-components';
-import { Button, ConfigProvider, Tag } from 'antd';
+import { ConfigProvider } from 'antd';
 import enUS from 'antd/locale/en_US';
+import {columns} from './column_scheme'
 
 const App = () => {
   return (
     <ConfigProvider locale={enUS}>
       <ProTable
+        columns={columns}
       />
     </ConfigProvider>
   )
