@@ -1,28 +1,36 @@
 {
-  "tasks": {"data": [
+  "tasks": [
     {
       "id": 1,
-      "title": "Appointment",
+      "title": "Project Meet",
       "description": "With professor",
       "dueDate": "2023-03-20",
-      "tags": ["delay", "academics"],
-      "status": "open"
+      "tags": "",
+      "status": "open",
+      "index": 0
     },
     {
       "id": 2,
       "title": "Class Assignment",
       "description": "Computer Networks",
       "dueDate": "2023-02-25",
-      "tags": ["urgent", "academics"],
-      "status": "done"
+      "tags": [
+        "urgent",
+        "academics"
+      ],
+      "status": "open",
+      "index": 1
     },
     {
       "id": 3,
       "title": "Dev Assignment",
       "description": "Frontend task",
       "dueDate": "2023-02-16",
-      "tags": ["urgent", "development"],
+      "tags": [
+        "urgent",
+        "development"
+      ],
       "status": "working"
     }
-  ]}
+  ]
 }

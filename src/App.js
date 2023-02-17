@@ -1,38 +1,10 @@
 import { ProTable } from '@ant-design/pro-components';
-import { ConfigProvider } from 'antd';
+import { Button, ConfigProvider } from 'antd';
 import enUS from 'antd/locale/en_US';
-import { useState } from 'react';
-import request from 'umi-request';
-import {columns} from './column_scheme'
+import request from 'umi-request'
+import {columns} from './columns'
 
 const App = () => {
-  const [tableListDataSource, setTableListDataSource] = useState([
-    {
-      "id": 1,
-      "title": "Appointment",
-      "description": "With professor",
-      "dueDate": "2023-03-20",
-      "tags": ["delay", "academics"],
-      "status": "open"
-    },
-    {
-      "id": 2,
-      "title": "Class Assignment",
-      "description": "Computer Networks",
-      "dueDate": "2023-02-25",
-      "tags": ["urgent", "academics"],
-      "status": "done"
-    },
-    {
-      "id": 3,
-      "title": "Dev Assignment",
-      "description": "Frontend task",
-      "dueDate": "2023-02-16",
-      "tags": ["urgent", "development"],
-      "status": "working"
-    }
-  ]);
-
   return (
     <ConfigProvider locale={enUS}>
       <ProTable
@@ -41,6 +13,17 @@ const App = () => {
 
         editable={{
           type: 'multiple',
+          onSave: (key, row, _, __) => {
+            // console.log(key, row);
+            request.put(`http://localhost:5005/tasks/${row.id}`, {
+              data: row,
+            }).then(function(response) {
+              console.log(response);
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+          }
         }}
 
         rowKey="id"
@@ -49,28 +32,34 @@ const App = () => {
             listsHeight: 400,
           },
         }}
+
         pagination={{
           pageSize: 5,
         }}
         dateFormatter="string"
 
-      request={async (params, sorter, filter) => {
-        console.log(params, sorter, filter);
+        request={async (params = {}, sort, filter) => {
+          // console.log(sort, filter);
+          return request('http://localhost:5005/tasks', {
+            params,
+          })
+          .then((response) => {
+              const result = {"data": response};
+              return result;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        }}
 
-        return Promise.resolve({
-          data: tableListDataSource,
-          success: true,
-        });
-      }}
-      
-      toolbar={{
-        search: {
-          onSearch: (value) => {
-            alert(value);
+        toolbar={{
+          search: {
+            onSearch: (value) => {
+              alert(value);
+            },
           },
-        },
-      }}
-      search={false}
+        }}
+        search={false}
       />
     </ConfigProvider>
   )

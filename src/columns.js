@@ -61,7 +61,7 @@ export const columns = [
     filters: true,
     render: (_, { tags }) => (
       <>
-        {tags?.map((tag) => {
+        {tags && tags?.map((tag) => {
           return (
             <Tag color='green' key={tag}>
               {tag.toUpperCase()}
