@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 const App = () => {
   const actionRef = useRef();
   const [newRowId, setNewRowId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <ConfigProvider locale={enUS}>
@@ -65,9 +66,9 @@ const App = () => {
         }}
         dateFormatter="string"
         headerTitle="Todo? || NoTodo?"
-        request={async (params = {}, sort, filter) => {
+        request={async (params = {searchQuery}, sort, filter) => {
           // console.log(sort, filter);
-          return request('http://localhost:5005/tasks', {
+          return request(`http://localhost:5005/tasks?q=${searchQuery}`, {
             params,
           })
           .then((response) => {
@@ -82,7 +83,8 @@ const App = () => {
         toolbar={{
           search: {
             onSearch: (value) => {
-              alert(value);
+              setSearchQuery(value);
+              actionRef.current?.reload();
             },
           },
         }}
