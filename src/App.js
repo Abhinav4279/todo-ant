@@ -14,7 +14,8 @@ const App = () => {
   const [tags, setTags] = useState([]);
   const [columns, setColumns] = useState([]);
   
-  useEffect(() => {
+  //utilities
+  const fetchAndSetTags = () => {
     request.get('http://localhost:5005/tasks')
     .then(function(response) {
       let allTags = [];
@@ -25,24 +26,21 @@ const App = () => {
     .catch(function(error) {
       console.log(error);
     });
-  }, [])
-
-  useEffect(() => {
-    const tagFilters = tags.map((tag) => ({text: tag, value: tag}));
-    setColumns(getColumns(tagFilters));
-  }, [tags])
-  
-  //utilities
+  }
   function keepUnique(arr) {
     let outputArray = Array.from(new Set(arr))
     return outputArray
   }
 
-  const updateTags = (rowTags) => {
-    let nowTags = [...tags, ...rowTags];
-    nowTags = keepUnique(nowTags);
-    setTags(nowTags);
-  }
+  useEffect(() => {
+    fetchAndSetTags();
+  }, [])
+
+  useEffect(() => {
+    const tagFilters = tags.filter((tag) => (tag !== "")).map((tag) => ({text: tag, value: tag}));
+    setColumns(getColumns(tagFilters));
+  }, [tags])
+  
 
   //rendering
   return (
@@ -58,11 +56,14 @@ const App = () => {
               row.tags = row.tags.split(',');
 
             row.tags = keepUnique(row.tags)
-            updateTags(row.tags);
+            // updateTags(row.tags);
             if(row.id === newRowId) {
               setNewRowId(null);
               request.post(`http://localhost:5005/tasks`, {
                 data: row,
+              })
+              .then((res) => {
+                fetchAndSetTags();
               })
               .catch(function(error) {
                 console.log(error);
@@ -72,6 +73,9 @@ const App = () => {
               request.put(`http://localhost:5005/tasks/${row.id}`, {
                 data: row,
               })
+              .then((res) => {
+                fetchAndSetTags();
+              })
               .catch(function(error) {
                 console.log(error);
               });
@@ -80,6 +84,9 @@ const App = () => {
           onDelete: (key, row, _, __) => {
             request.delete(`http://localhost:5005/tasks/${row.id}`, {
               data: row,
+            })
+            .then((res) => {
+              fetchAndSetTags();
             })
             .catch(function(error) {
               console.log(error);
