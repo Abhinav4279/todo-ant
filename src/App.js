@@ -91,10 +91,12 @@ const App = () => {
             type="primary"
             onClick={() => {
               const nid = uuidv4();
+              const today = Date.now();
               setNewRowId(nid)
               actionRef.current?.addEditRecord?.({
                 id: nid,
                 title: 'Task',
+                creationDate: today
               });
             }}
             icon={<PlusOutlined />}
