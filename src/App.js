@@ -17,8 +17,14 @@ const App = () => {
             // console.log(key, row);
             request.put(`http://localhost:5005/tasks/${row.id}`, {
               data: row,
-            }).then(function(response) {
-              console.log(response);
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+          },
+          onDelete: (key, row, _, __) => {
+            request.delete(`http://localhost:5005/tasks/${row.id}`, {
+              data: row,
             })
             .catch(function(error) {
               console.log(error);
