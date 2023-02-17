@@ -5,6 +5,7 @@ import enUS from 'antd/locale/en_US';
 import { useRef, useState } from 'react';
 import request from 'umi-request'
 import {columns} from './columns'
+import { v4 as uuidv4 } from 'uuid';
 
 const App = () => {
   const actionRef = useRef();
@@ -89,7 +90,7 @@ const App = () => {
             <Button
             type="primary"
             onClick={() => {
-              const nid = (Math.random() * 1000000).toFixed(0);
+              const nid = uuidv4();
               setNewRowId(nid)
               actionRef.current?.addEditRecord?.({
                 id: nid,
