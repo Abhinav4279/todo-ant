@@ -2,16 +2,49 @@ import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
 import { Button, ConfigProvider } from 'antd';
 import enUS from 'antd/locale/en_US';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import request from 'umi-request'
-import {columns} from './columns'
+import { getColumns } from './columns';
 import { v4 as uuidv4 } from 'uuid';
 
 const App = () => {
   const actionRef = useRef();
   const [newRowId, setNewRowId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [tags, setTags] = useState([]);
+  const [columns, setColumns] = useState([]);
+  
+  useEffect(() => {
+    request.get('http://localhost:5005/tasks')
+    .then(function(response) {
+      let allTags = [];
+      response?.forEach((task) => allTags = [...allTags, ...task.tags]);
+      allTags = keepUnique(allTags);
+      setTags(allTags);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  }, [])
 
+  useEffect(() => {
+    const tagFilters = tags.map((tag) => ({text: tag, value: tag}));
+    setColumns(getColumns(tagFilters));
+  }, [tags])
+  
+  //utilities
+  function keepUnique(arr) {
+    let outputArray = Array.from(new Set(arr))
+    return outputArray
+  }
+
+  const updateTags = (rowTags) => {
+    let nowTags = [...tags, ...rowTags];
+    nowTags = keepUnique(nowTags);
+    setTags(nowTags);
+  }
+
+  //rendering
   return (
     <ConfigProvider locale={enUS}>
       <ProTable
@@ -20,12 +53,12 @@ const App = () => {
         cardBordered
 
         editable={{
-          type: 'multiple',
           onSave: (key, row, _, __) => {
-            console.log(key, row);
             if(typeof row.tags === 'string')
               row.tags = row.tags.split(',');
 
+            row.tags = keepUnique(row.tags)
+            updateTags(row.tags);
             if(row.id === newRowId) {
               setNewRowId(null);
               request.post(`http://localhost:5005/tasks`, {
@@ -67,7 +100,6 @@ const App = () => {
         dateFormatter="string"
         headerTitle="Todo? || NoTodo?"
         request={async (params = {searchQuery}, sort, filter) => {
-          // console.log(sort, filter);
           return request(`http://localhost:5005/tasks?q=${searchQuery}`, {
             params,
           })
@@ -98,7 +130,8 @@ const App = () => {
               actionRef.current?.addEditRecord?.({
                 id: nid,
                 title: 'Task',
-                creationDate: today
+                creationDate: today,
+                status: 'open'
               });
             }}
             icon={<PlusOutlined />}
