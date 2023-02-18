@@ -1,3 +1,49 @@
 {
-  "tasks": []
+  "tasks": [
+    {
+      "id": "3da623d7-f19e-4849-a2c9-a09f55b5682d",
+      "title": "Task1",
+      "creationDate": 1676661503129,
+      "status": "open",
+      "index": 0,
+      "description": "task1",
+      "tags": [
+        "aa",
+        "bb"
+      ]
+    },
+    {
+      "id": "26d7e5ee-0d39-4800-b146-300f3e746817",
+      "title": "Task2",
+      "creationDate": 1676661535429,
+      "status": "done",
+      "index": 2,
+      "tags": [
+        "AC"
+      ],
+      "description": "task2",
+      "dueDate": "2023-02-24"
+    },
+    {
+      "id": "3f7d1f2a-0a63-4b7b-978f-d1f06130e4bf",
+      "title": "Shivratri",
+      "creationDate": 1676661708379,
+      "status": "working",
+      "index": 2,
+      "tags": [
+        "Important"
+      ],
+      "description": "adiyogi",
+      "dueDate": "2023-02-18"
+    },
+    {
+      "id": "d7eee3c3-b42a-4aa2-94aa-065ff4e1c2d0",
+      "title": "Task",
+      "creationDate": 1676691760279,
+      "status": "open",
+      "index": 3,
+      "description": "ds",
+      "tags": []
+    }
+  ]
 }

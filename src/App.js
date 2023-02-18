@@ -13,10 +13,11 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [tags, setTags] = useState([]);
   const [columns, setColumns] = useState([]);
+  let url = process.env.REACT_APP_SERVER_URL + '';
   
   //utilities
   const fetchAndSetTags = () => {
-    request.get('http://localhost:5005/tasks')
+    request.get(url)
     .then(function(response) {
       let allTags = [];
       response?.forEach((task) => allTags = [...allTags, ...task.tags]);
@@ -59,7 +60,7 @@ const App = () => {
             // updateTags(row.tags);
             if(row.id === newRowId) {
               setNewRowId(null);
-              request.post(`http://localhost:5005/tasks`, {
+              request.post(url, {
                 data: row,
               })
               .then((res) => {
@@ -70,7 +71,7 @@ const App = () => {
               });
             }
             else {
-              request.put(`http://localhost:5005/tasks/${row.id}`, {
+              request.put(url + row.id, {
                 data: row,
               })
               .then((res) => {
@@ -82,7 +83,7 @@ const App = () => {
             }
           },
           onDelete: (key, row, _, __) => {
-            request.delete(`http://localhost:5005/tasks/${row.id}`, {
+            request.delete(url + row.id, {
               data: row,
             })
             .then((res) => {
@@ -107,7 +108,7 @@ const App = () => {
         dateFormatter="string"
         headerTitle="Todo? || NoTodo?"
         request={async (params = {searchQuery}, sort, filter) => {
-          return request(`http://localhost:5005/tasks?q=${searchQuery}`, {
+          return request(`${url}?q=${searchQuery}`, {
             params,
           })
           .then((response) => {
