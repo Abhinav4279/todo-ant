@@ -71,7 +71,7 @@ const App = () => {
               });
             }
             else {
-              request.put(url + row.id, {
+              request.put(`${url}/${row.id}`, {
                 data: row,
               })
               .then((res) => {
@@ -83,7 +83,7 @@ const App = () => {
             }
           },
           onDelete: (key, row, _, __) => {
-            request.delete(url + row.id, {
+            request.delete(`${url}/${row.id}`, {
               data: row,
             })
             .then((res) => {
