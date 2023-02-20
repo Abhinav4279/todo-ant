@@ -9,6 +9,10 @@ git clone https://github.com/Abhinav4279/todo-ant
 cd todo-ant
 npm i
 ```
+## Set environment variable
+```
+REACT_APP_SERVER_URL=http://localhost:5005/tasks
+```
 ## Run development server
 ```bash
 npm run dev
