@@ -13,7 +13,6 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [tags, setTags] = useState([]);
   const [columns, setColumns] = useState([]);
-  const [isEditing, setEditing] = useState(0);
   let url = process.env.REACT_APP_SERVER_URL + '';
   
   //utilities
