@@ -7,13 +7,15 @@ import request from 'umi-request'
 import { getColumns } from './columns';
 import { v4 as uuidv4 } from 'uuid';
 
+let url = process.env.REACT_APP_SERVER_URL + '';
+export let deleteHandler;
+
 const App = () => {
   const actionRef = useRef();
   const [newRowId, setNewRowId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [tags, setTags] = useState([]);
   const [columns, setColumns] = useState([]);
-  let url = process.env.REACT_APP_SERVER_URL + '';
   
   //utilities
   const fetchAndSetTags = () => {
@@ -32,17 +34,9 @@ const App = () => {
     let outputArray = Array.from(new Set(arr))
     return outputArray
   }
-
-  useEffect(() => {
-    fetchAndSetTags();
-  }, [])
-
-  useEffect(() => {
-    const tagFilters = tags.filter((tag) => (tag !== "")).map((tag) => ({text: tag, value: tag}));
-    setColumns(getColumns(tagFilters));
-  }, [tags])
   
-  const deleteHandler = (row) => {
+  deleteHandler = (row) => {
+    actionRef.current?.reload();
     request.delete(`${url}/${row.id}`, {
       data: row,
     })
@@ -53,6 +47,17 @@ const App = () => {
       console.log(error);
     });
   }
+
+  //lifecycle handling
+  useEffect(() => {
+    fetchAndSetTags();
+  }, [])
+
+  useEffect(() => {
+    const tagFilters = tags.filter((tag) => (tag !== "")).map((tag) => ({text: tag, value: tag}));
+    setColumns(getColumns(tagFilters));
+  }, [tags])
+  
 
   //rendering
   return (

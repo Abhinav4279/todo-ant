@@ -1,4 +1,12 @@
 import { Button, Tag } from "antd";
+import { deleteHandler } from "./App";
+import { Popconfirm } from 'antd';
+
+const confirm = (record) => {
+  if(deleteHandler) {
+    deleteHandler(record);
+  }
+};
 
 export function getColumns(tagFilters) {
   const columns = [
@@ -119,14 +127,23 @@ export function getColumns(tagFilters) {
       key: 'option',
       render: (text, record, _, action) => [
         <Button
-        type="link"
-        key="editable"
-        onClick={() => {
-          action?.startEditable?.(record.id);
-        }}
-      >
-        edit
-      </Button>,
+          type="link"
+          key="editable"
+          onClick={() => {
+            action?.startEditable?.(record.id);
+          }}
+        >
+          Edit
+        </Button>,
+        <Popconfirm
+          title="Delete this line?"
+          key="delete"
+          onConfirm={() => confirm(record)}
+          okText="OK"
+          cancelText="Cancel"
+        >   
+          <Button type="link">Delete</Button>
+        </Popconfirm>
       ],
     },
   ];
