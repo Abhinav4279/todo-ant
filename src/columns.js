@@ -63,6 +63,7 @@ export function getColumns(tagFilters) {
       title: 'Tags',
       key: 'tags',
       dataIndex: 'tags',
+      tip: 'Add comma separated values. Eg. TAG1,TAG2',
       filters: tagFilters,
       onFilter: true,
       render: (_, { tags }) => (

@@ -13,6 +13,7 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [tags, setTags] = useState([]);
   const [columns, setColumns] = useState([]);
+  const [isEditing, setEditing] = useState(0);
   let url = process.env.REACT_APP_SERVER_URL + '';
   
   //utilities
@@ -42,6 +43,17 @@ const App = () => {
     setColumns(getColumns(tagFilters));
   }, [tags])
   
+  const deleteHandler = (row) => {
+    request.delete(`${url}/${row.id}`, {
+      data: row,
+    })
+    .then((res) => {
+      fetchAndSetTags();
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  }
 
   //rendering
   return (
@@ -83,15 +95,7 @@ const App = () => {
             }
           },
           onDelete: (key, row, _, __) => {
-            request.delete(`${url}/${row.id}`, {
-              data: row,
-            })
-            .then((res) => {
-              fetchAndSetTags();
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
+            deleteHandler(row);
           }
         }}
 
@@ -106,7 +110,7 @@ const App = () => {
           pageSize: 5,
         }}
         dateFormatter="string"
-        headerTitle="Todo? || NoTodo?"
+        headerTitle="Todo App"
         request={async (params = {searchQuery}, sort, filter) => {
           return request(`${url}?q=${searchQuery}`, {
             params,
