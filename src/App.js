@@ -111,7 +111,7 @@ const App = () => {
         }}
 
         pagination={{
-          pageSize: 5,
+          pageSize: 3,
         }}
         dateFormatter="string"
         headerTitle="Todo App"
