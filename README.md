@@ -1,4 +1,4 @@
-# Todo using Ant Design (ProTable)
+# Todo using Ant Design
 
 A todo application build on reactjs using antd pro-components. For database requirements, mock [json-server](https://github.com/typicode/json-server) is used.\
 https://github.com/Abhinav4279/file-server
